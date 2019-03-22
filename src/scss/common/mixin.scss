@@ -1,0 +1,28 @@
+// Media Queries mixin
+@mixin screen($point) {
+    @if $point == sm { // ≥ 568px
+      @media screen and (min-width: $sm) { @content; }
+    }
+    @else if $point == md {
+      @media screen and (min-width: $md) { @content; }
+    }
+    @else if $point == lg {
+      @media screen and (min-width: $lg) { @content; }
+    }
+    @else if $point == lgx {
+      @media screen and (min-width: $lgx) { @content; }
+    }
+    @else if $point == xl {
+      @media screen and (min-width: $xl) { @content; }
+    }
+}
+
+@mixin  ul--style {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  li {
+    display: inline-block;
+    padding: 10px 15px;
+  }
+}

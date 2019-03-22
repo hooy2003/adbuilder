@@ -1,0 +1,161 @@
+nav {
+    height: 86px;
+    background-color: $white;
+    box-shadow: 0 .1rem 1rem rgba(0,0,0,.15);
+    .nav__inner {
+        width: 100%;
+        background-color: $white;
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+        @include screen(lg) {
+            width: 1000px;
+            flex-wrap: nowrap;
+        }
+        &>a {
+            display: flex;
+            align-items: center;
+            padding: 15px 0 7px 0;
+            @include screen(lg) {
+                padding: 0;
+            }
+            &.logo {
+                width: 92px;
+                margin: 0 auto;
+                @include screen(lg) {
+                    margin: 0;
+                    width: 150px;
+                }
+            }
+            &.info {
+                color: $black;
+                padding-right: 30px;
+                padding-left: 30px;
+            }
+            img {
+                display: inline-block;
+                width: 100%;
+            }
+            p {
+                font-weight: bold;
+                line-height: 1.25em;
+                color: $black;
+                display: inline-block;
+                span {
+                    color: $black;
+                }
+            }
+        }
+        ul {
+            @include ul--style;
+            margin-left: 0;
+            display: flex;
+            align-items: center;
+            flex: 1;
+            @include screen(lg) {
+                margin-left: 25px
+            }
+            li {
+                cursor: pointer;
+                position: relative;
+                padding: 15px 10px;
+                color: $black;
+                @include screen(lg) {
+                    padding: 30px 15px;
+                }
+                &.active,
+                &:hover  {
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        bottom: 8px;
+                        left: 0;
+                        right: 0;
+                        margin: auto;
+                        display:inline-block;
+                        width: calc(100% - 20px);
+                        height: 1px;
+                        background-color: $black;
+                        @include screen(lg) {
+                            bottom: 20px;
+                            width: calc(100% - 30px);
+                        }
+                    }
+                }
+                &[disabled="disabled"] {
+                    // color: $DarkGray;
+                    pointer-events: none;
+                    cursor: default;
+                    &.active,
+                    &:hover  {
+                        &::after {
+                            display: none;
+                        }
+                    }
+                }
+            }
+        }
+        .more-btn {
+            cursor: pointer;
+            margin-left: 0;
+            padding: 0 15px;
+            position: relative;
+            color: $black;
+            height: 100%;
+            align-items: center;
+            display: none;
+            @include screen(lg) {
+                display: flex;
+            }
+            &:hover {
+                ul {
+                    display: block;
+                }
+            }
+            ul {
+                display: none;
+                position: absolute;
+                z-index: 5;
+                background-color: $white;
+                // border: 1px solid $Gray;
+                width: 100px;
+                flex-wrap: wrap;
+                margin-left: 0;
+                top: 60px;
+                left: -10px;
+                box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.2);
+                border-radius: 10px;
+                li {
+                    padding: 15px 10px;
+                    box-sizing: border-box;
+                    width: 100%;
+                    &.active,
+                    &:hover  {
+                        &::after {
+                            content: '';
+                            bottom: 10px;
+                            width: calc(100% - 20px);
+                        }
+                    }
+                }
+            }
+        }
+    }    
+}
+/**
+ * Mobile nav-fixed
+ *
+ */
+nav.nav-fixed {
+    .nav-inner {
+        position: fixed;
+        top: 0;
+        z-index: 99;
+        animation: fadeInDown 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        > a.logo {
+            opacity: 0;
+            padding: 0;
+            height: 0;
+        }
+    }
+}
