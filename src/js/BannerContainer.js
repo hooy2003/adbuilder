@@ -84,6 +84,8 @@ class BannerContainer {
     this.adContainerView = this.rootView.querySelector(
       `#vmfive-ad-container-${self.config.request_id}`
     );
+    // request_id
+    this.request_id = self.config.request_id;
     // One columns in container
     this.adContainerInner = this.rootView.querySelector(
       `#vmfive-container-inner-${self.config.request_id}`

@@ -27,172 +27,65 @@
 </template>
 
 <script>
-import { tetris } from "../../src/js/tetris.js";
-import { Container } from "../../src/js/BannerContainer.js";
-import { test } from "../module.js";
+import { mapGetters, mapActions, mapMutations } from "vuex";
+import { custom_container, custom_tetris, anime_timeline } from "../module.js";
 
 export default {
+  created() {},
+  computed: {},
   mounted() {
-    test();
-    let scriptEl = document.createElement("script");
-    scriptEl.setAttribute(
-      "src",
-      "https://man.vm5apis.com/dist/anime.js/2.0.2/anime.min.js"
-    );
-    console.log("scriptEl", this.$refs.scriptholder);
-    this.$refs.scriptholder.appendChild(scriptEl);
+    this.init();
+  },
+  methods: {
+    async init() {
+      const demoLay = JSON.parse(localStorage.getItem("demoLayout"));
+      const demoOp = JSON.parse(localStorage.getItem("demoOptions"));
+      await this.dothing(demoLay, demoOp);
+    },
+    async dothing(demoLay, demoOp) {
+      let scriptEl = document.createElement("script");
+      scriptEl.setAttribute(
+        "src",
+        "https://man.vm5apis.com/dist/anime.js/2.0.2/anime.min.js"
+      );
+      this.$refs.scriptholder.appendChild(scriptEl);
 
-    /////////=========
-    let requestId = "55667788";
-    let trackings =
-      '[{"event":"view","url":"https://vaser-track.vm5apis.com/v2/track?requestId=&placementId=&campaignId=&audienceGroupId=&creativeId=&timezone=8&creativeFormat=richmedia&pixel=1&x=0&event=view"},\
-			{"event":"impression","url":"https://vaser-track.vm5apis.com/v2/track?requestId=&placementId=&campaignId=&audienceGroupId=&creativeId=&timezone=8&creativeFormat=richmedia&pixel=1&x=0&event=impression"},\
-			{"event":"click","url":"https://vaser-track.vm5apis.com/v2/track?requestId=&placementId=&campaignId=&audienceGroupId=&creativeId=&timezone=8&creativeFormat=richmedia&pixel=1&x=0&event=click"},\
-			{"event":"close","url":"https://vaser-track.vm5apis.com/v2/track?requestId=&placementId=&campaignId=&audienceGroupId=&creativeId=&timezone=8&creativeFormat=richmedia&pixel=1&x=0&event=close"},\
-			{"event":"custom","url":"https://vaser-track.vm5apis.com/v2/track?requestId=&placementId=&campaignId=&audienceGroupId=&creativeId=&timezone=8&creativeFormat=richmedia&pixel=1&x=0&event=custom"}]';
-    let vmfiveAdUnitContainer = Container({
-      // el: '#vmfive-ad-unit-container',
-      request_id: requestId,
-      track_url: trackings,
-
-      downloaded_pixel:
-        "https://vaser-track.vm5apis.com/v2/track?requestId=&event=downloaded&placementId=&campaignId=&audienceGroupId=&creativeId=&timezone=8&creativeFormat=richmedia&pixel=1&x=0",
-      "text:cta_in_new_window": "",
-      dfp_url: "",
-      cta_prefix_url:
-        "https://vaser-track.vm5apis.com/v2/track?requestId=&placementId=&campaignId=&audienceGroupId=&creativeId=&timezone=8&creativeFormat=richmedia&pixel=1&x=0&event=click",
-      "cta:default": "https://vmfive.com/?utm_source=vmfive_ad_cta",
-
-      "text:embedded": ``,
-      "text:show_close_mode": `fadein`,
-      // 'text:height_ratio': `2`,
-      //  'text:background_color': `#00000080`,
-
-      bannerRatio: "32:10",
-
-      enableExpand: false,
-      layoutGrid: 1,
-
-      onctaclicked: [
-        function(comp, data) {
-          console.log(data);
-        }
-      ],
-      onclosed: [
-        function() {
-          console.log("closed");
-        }
-      ]
-    });
-
-    let d = tetris({
-      el: vmfiveAdUnitContainer.adContainerInner,
-      request_id: requestId,
-      "image:image1": "http://lorempixel.com/320/100/",
-      // 'image:foreground_image': '',
-
-      bannerRatio: "32:10",
-
-      columns: 12,
-      rows: 4,
-
-      onBackgroundImageOnLoad: [
-        function(el, option) {
-          playAnimation(el, option);
-        }
-      ]
-    });
-
-    function playAnimation(obj, option) {
-      let anime_timeline = null;
-      let screenHeight = screen.height;
-      let blockList = [];
-      blockList.push({});
-      for (let i = 1; i <= option.rows * option.columns; i++) {
-        blockList.push(
-          document.querySelector(
-            `#vmfive-container-inner-${
-              vmfiveAdUnitContainer.config.request_id
-            } .block${i}`
-          )
-        );
+      // 如何控制說要這個客製化的功能
+      // 每一個都要有container
+      let unitContainer = custom_container();
+      function getCustomJs(type) {
+        let layouts = {
+          'tetris': function() {
+            custom_tetris(unitContainer, demoOp, playAnimation);
+          },
+          'expand': function() {
+            custom_tetris(unitContainer, demoOp, playAnimation);
+          },
+          // default 怎麼寫？？？
+          'default': function() {
+            custom_tetris(unitContainer, demoOp, playAnimation);
+          }
+        };
+        layouts[type]();
       }
-      anime_timeline = anime.timeline({
-        loop: false
-      });
-      anime_timeline
-        .add({
-          targets: [blockList[13], blockList[25], blockList[37], blockList[38]],
-          duration: 350,
-          easing: "easeInQuad",
-          translateY: [-screenHeight, 0]
-        })
-        .add({
-          targets: [blockList[35], blockList[46], blockList[47], blockList[48]],
-          duration: 300,
-          easing: "easeInQuad",
-          translateY: [-screenHeight, 0]
-        })
-        .add({
-          targets: [blockList[31], blockList[43], blockList[44], blockList[45]],
-          duration: 250,
-          easing: "easeInQuad",
-          translateY: [-screenHeight, 0]
-        })
-        .add({
-          targets: [blockList[28], blockList[29], blockList[40], blockList[41]],
-          duration: 200,
-          easing: "easeInQuad",
-          translateY: [-screenHeight, 0]
-        })
-        .add({
-          targets: [blockList[12], blockList[23], blockList[24], blockList[36]],
-          duration: 200,
-          easing: "easeInQuad",
-          translateY: [-screenHeight, 0]
-        })
-        .add({
-          targets: [blockList[17], blockList[18], blockList[30], blockList[42]],
-          duration: 100,
-          easing: "easeInQuad",
-          translateY: [-screenHeight, 0]
-        })
-        .add({
-          targets: [blockList[15], blockList[26], blockList[27], blockList[39]],
-          duration: 100,
-          easing: "easeInQuad",
-          translateY: [-screenHeight, 0]
-        })
-        .add({
-          targets: [blockList[9], blockList[21], blockList[32], blockList[33]],
-          duration: 100,
-          easing: "easeInQuad",
-          translateY: [-screenHeight, 0]
-        })
-        .add({
-          targets: [blockList[7], blockList[8], blockList[19], blockList[20]],
-          duration: 100,
-          easing: "easeInQuad",
-          translateY: [-screenHeight, 0]
-        })
-        .add({
-          targets: [blockList[10], blockList[11], blockList[22], blockList[34]],
-          duration: 100,
-          easing: "easeInQuad",
-          translateY: [-screenHeight, 0]
-        })
-        .add({
-          targets: [blockList[4], blockList[5], blockList[6], blockList[16]],
-          duration: 100,
-          easing: "easeInQuad",
-          translateY: [-screenHeight, 0]
-        })
-        .add({
-          targets: [blockList[1], blockList[2], blockList[3], blockList[14]],
-          duration: 100,
-          easing: "easeInQuad",
-          translateY: [-screenHeight, 0]
-        });
+      getCustomJs(demoLay);
+
+      function playAnimation(obj, option) {
+        let blockList = [];
+        blockList.push({});
+        for (let i = 1; i <= option.rows * option.columns; i++) {
+          blockList.push(
+            document.querySelector(
+              `#vmfive-container-inner-${
+                unitContainer.config.request_id
+              } .block${i}`
+            )
+          );
+        }
+
+        anime_timeline(blockList);
+      }
+      // console.log('custom_tetris',  custom_tetris(unitContainer, demoOp, playAnimation));
     }
   }
 };

@@ -140,6 +140,6 @@ class TetrisImg {
   }
 }
 
-export function tetris(options) {
+export function tetrisImg(options) {
   return new TetrisImg(options);
 }
