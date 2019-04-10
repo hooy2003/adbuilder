@@ -1,9 +1,9 @@
 <template>
   <div class="home">
     <el-steps :space="200" :active="1" finish-status="success">
-		<el-step title="制定Container"></el-step>
-		<el-step title="plugins"></el-step>
-		<el-step title="產出"></el-step>
+      <el-step title="制定Container"></el-step>
+      <el-step title="plugins"></el-step>
+      <el-step title="產出"></el-step>
     </el-steps>
     <Draft />
   </div>

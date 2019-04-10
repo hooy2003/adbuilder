@@ -1,15 +1,24 @@
 import { Container } from "../src/js/BannerContainer.js";
 import { tetrisImg } from "../src/js/tetris.js";
+import { backgroundImage } from "../src/js/BackgroundImage.js";
+import { video } from "../src/js/Video.js";
 
-export function custom_container() {
+export function custom_container(demoOp) {
   let requestId = "55667788";
   let trackings =
-    '[{"event":"view","url":"https://vaser-track.vm5apis.com/v2/track?requestId=&placementId=&campaignId=&audienceGroupId=&creativeId=&timezone=8&creativeFormat=richmedia&pixel=1&x=0&event=view"},\
+  '[{"event":"view","url":"https://vaser-track.vm5apis.com/v2/track?requestId=&placementId=&campaignId=&audienceGroupId=&creativeId=&timezone=8&creativeFormat=richmedia&pixel=1&x=0&event=view"},\
   {"event":"impression","url":"https://vaser-track.vm5apis.com/v2/track?requestId=&placementId=&campaignId=&audienceGroupId=&creativeId=&timezone=8&creativeFormat=richmedia&pixel=1&x=0&event=impression"},\
+  {"event":"video_percentage:0","url":"https://vaser-track.vm5apis.com/v2/track?requestId=&placementId=&campaignId=&audienceGroupId=&creativeId=&timezone=8&creativeFormat=richmedia&pixel=1&x=0&event=video_percentage:0"},\
+  {"event":"video_percentage:25","url":"https://vaser-track.vm5apis.com/v2/track?requestId=&placementId=&campaignId=&audienceGroupId=&creativeId=&timezone=8&creativeFormat=richmedia&pixel=1&x=0&event=video_percentage:25"},\
+  {"event":"video_percentage:50","url":"https://vaser-track.vm5apis.com/v2/track?requestId=&placementId=&campaignId=&audienceGroupId=&creativeId=&timezone=8&creativeFormat=richmedia&pixel=1&x=0&event=video_percentage:50"},\
+  {"event":"video_percentage:75","url":"https://vaser-track.vm5apis.com/v2/track?requestId=&placementId=&campaignId=&audienceGroupId=&creativeId=&timezone=8&creativeFormat=richmedia&pixel=1&x=0&event=video_percentage:75"},\
+  {"event":"video_percentage:100","url":"https://vaser-track.vm5apis.com/v2/track?requestId=&placementId=&campaignId=&audienceGroupId=&creativeId=&timezone=8&creativeFormat=richmedia&pixel=1&x=0&event=video_percentage:100"},\
   {"event":"click","url":"https://vaser-track.vm5apis.com/v2/track?requestId=&placementId=&campaignId=&audienceGroupId=&creativeId=&timezone=8&creativeFormat=richmedia&pixel=1&x=0&event=click"},\
   {"event":"close","url":"https://vaser-track.vm5apis.com/v2/track?requestId=&placementId=&campaignId=&audienceGroupId=&creativeId=&timezone=8&creativeFormat=richmedia&pixel=1&x=0&event=close"},\
-  {"event":"custom","url":"https://vaser-track.vm5apis.com/v2/track?requestId=&placementId=&campaignId=&audienceGroupId=&creativeId=&timezone=8&creativeFormat=richmedia&pixel=1&x=0&event=custom"}]';
-
+  {"event":"replay","url":"https://vaser-track.vm5apis.com/v2/track?requestId=&placementId=&campaignId=&audienceGroupId=&creativeId=&timezone=8&creativeFormat=richmedia&pixel=1&x=0&event=replay"},\
+  {"event":"custom","url":"https://vaser-track.vm5apis.com/v2/track?requestId=&placementId=&campaignId=&audienceGroupId=&creativeId=&timezone=8&creativeFormat=richmedia&pixel=1&x=0&event=custom"}]'
+  ;
+console.log('demoOp', demoOp);
   return Container({
     request_id: requestId,
     track_url: trackings,
@@ -29,8 +38,10 @@ export function custom_container() {
 
     bannerRatio: "32:10",
 
-    enableExpand: false,
-    layoutGrid: 1,
+    enableExpand: demoOp.enableExpand ? demoOp.enableExpand:false,
+    expandMode: demoOp.enableExpand ? demoOp.enableExpand:'full',// 若可展開，展開模式為 full or middle
+    layoutGrid:   demoOp.layoutGrid ? demoOp.layoutGrid:"1", // 預設 Grid 欄數
+    layoutExpand: demoOp.layoutExpand ? demoOp.layoutExpand:"1", // 展開 Grid 欄數
 
     onctaclicked: [
       function(comp, data) {
@@ -61,6 +72,29 @@ export function custom_tetris(vmfiveAdUnitContainer, demoOp, playAnimation) {
         playAnimation(el, option);
       }
     ]
+  });
+}
+
+export function custom_backgroundImage(vmfiveAdUnitContainer, demoOp) {
+  return backgroundImage({
+    el: vmfiveAdUnitContainer.adContainerRight,
+    request_id: vmfiveAdUnitContainer.request_id,
+    'image:image1': demoOp.image,
+    'image:image_expanded': demoOp.image,
+    'image:foreground_image': '',
+  });
+}
+
+export function custom_video (vmfiveAdUnitContainer, demoOp) {
+  return video({
+    el: vmfiveAdUnitContainer.adContainerLeft,
+    request_id: vmfiveAdUnitContainer.request_id,
+    'video:video1:mp4': 'https://d2v4tz4zvhrua.cloudfront.net/manual_uploads/20190313/resource/for_demo/expand_ad/video.mp4',
+    'video:video1:m3u8': 'https://d2v4tz4zvhrua.cloudfront.net/manual_uploads/20180402/mothers_day_demo/resources/dynamic/interstitial/video.m3u8',
+    'image:cover': 'https://d2v4tz4zvhrua.cloudfront.net/production/image_1521427447202.jpg',
+    'text:3rd_party_track_url': '',
+    disableAutoplay: false,
+    videoLoop: true,
   });
 }
 
