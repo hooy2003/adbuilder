@@ -5,6 +5,10 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "pre01": "babel src/js/tetris.js -o dist/tetris.min.js",
+    "pre0": "babel src/js/BannerContainer.js -o dist/BannerContainer.min.js",
+    "pre1": "npm run pre01 && uglifyjs --compress --mangle --output dist/tetris.ug.js dist/tetris.min.js",
+    "pre": "npm run pre0 && uglifyjs --compress --mangle --output dist/BannerContainer.ug.js dist/BannerContainer.min.js",
     "lint": "vue-cli-service lint --fix",
     "test:unit": "vue-cli-service test:unit"
   },
@@ -15,11 +19,14 @@
     "raf": "^3.4.1",
     "scrollmonitor": "^1.2.4",
     "shelljs": "^0.8.3",
+    "uglifyjs-webpack-plugin": "^2.1.2",
     "vue": "^2.6.6",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
     "@vue/cli-plugin-babel": "^3.5.0",
     "@vue/cli-plugin-eslint": "^3.5.0",
     "@vue/cli-plugin-unit-jest": "^3.5.0",

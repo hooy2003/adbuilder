@@ -60,24 +60,17 @@ export default {
     },
     async dothing(demoLay, demoOp) {
       let scriptEl = document.createElement("script");
-      let scriptEl2 = document.createElement("script");
       
       scriptEl.setAttribute(
         "src",
         "https://man.vm5apis.com/dist/anime.js/2.0.2/anime.min.js"
       );
       this.$refs.scriptholder.appendChild(scriptEl);
-      scriptEl2.setAttribute(
-        "src",
-        "https://d1v69ngg41pvl6.cloudfront.net/dist/MixPlayer.js"
-      );
-      this.$refs.scriptholder.appendChild(scriptEl2);
 
 
       // 如何控制說要這個客製化的功能
       // 每一個都要有container
       let unitContainer = custom_container(demoOp);
-      console.log('unitContainer', unitContainer);
       function getCustomJs(type) {
         let layouts = {
           tetris: function() {
@@ -89,7 +82,6 @@ export default {
           },
           // default 怎麼寫？？？
           default: function() {
-            custom_tetris(unitContainer, demoOp, playAnimation);
           }
         };
         layouts[type]();
@@ -112,7 +104,6 @@ export default {
 
         anime_timeline(blockList);
       }
-      // console.log('custom_tetris',  custom_tetris(unitContainer, demoOp, playAnimation));
     }
   }
 };
